@@ -1,160 +1,105 @@
-"use client"
+"use client";
 
-import * as React from "react"
 import {
-  AudioWaveform,
-  BookOpen,
-  Bot,
-  Command,
-  Frame,
+  FolderGit2,
   GalleryVerticalEnd,
-  Map,
-  PieChart,
-  Settings2,
-  SquareTerminal,
-} from "lucide-react"
+  Lightbulb,
+  Notebook,
+  User,
+} from "lucide-react";
+import * as React from "react";
 
-import { NavMain } from "@/components/nav-main"
-import { NavProjects } from "@/components/nav-projects"
-import { NavUser } from "@/components/nav-user"
-import { TeamSwitcher } from "@/components/team-switcher"
+import { NavMain } from "@/components/nav-main";
+import { NavUser } from "@/components/nav-user";
+import { TeamSwitcher } from "@/components/team-switcher";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 
 // This is sample data.
 const data = {
   user: {
-    name: "shadcn",
-    email: "m@example.com",
+    name: "Ranok Raihan",
+    email: "ranokraihan@gmail.com",
     avatar: "/avatars/shadcn.jpg",
   },
   teams: [
     {
-      name: "Acme Inc",
+      name: "Admin",
       logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
+      plan: "admin in controll",
     },
   ],
   navMain: [
     {
-      title: "Playground",
+      title: "projects",
       url: "#",
-      icon: SquareTerminal,
+      icon: FolderGit2,
       isActive: true,
       items: [
         {
-          title: "History",
-          url: "#",
+          title: "Create Project",
+          url: "/projects/create",
         },
         {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
+          title: "Manage Projects",
+          url: "/projects",
         },
       ],
     },
     {
-      title: "Models",
+      title: "skills",
       url: "#",
-      icon: Bot,
+      icon: Lightbulb,
+      isActive: false,
       items: [
         {
-          title: "Genesis",
-          url: "#",
+          title: "Create Skill",
+          url: "/skills/create",
         },
         {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
+          title: "Manage Skills",
+          url: "/skills",
         },
       ],
     },
     {
-      title: "Documentation",
+      title: "blog",
       url: "#",
-      icon: BookOpen,
+      icon: Notebook,
       items: [
         {
-          title: "Introduction",
-          url: "#",
+          title: "Write Blog",
+          url: "/blogs/write",
         },
         {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
+          title: "Manage blogs",
+          url: "/blogs",
         },
       ],
     },
     {
-      title: "Settings",
+      title: "users",
       url: "#",
-      icon: Settings2,
+      icon: User,
+      isActive: false,
       items: [
         {
-          title: "General",
-          url: "#",
+          title: "Create User",
+          url: "/users/create",
         },
         {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
+          title: "Manage Users",
+          url: "/users",
         },
       ],
     },
   ],
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
-    },
-  ],
-}
+};
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -164,12 +109,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
-  )
+  );
 }
