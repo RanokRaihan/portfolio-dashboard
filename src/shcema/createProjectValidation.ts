@@ -13,6 +13,6 @@ export const createProjectValidation = z.object({
   thumbnail: z.array(z.any()).max(1, { message: "Max 1 images" }),
   images: z.array(z.any()).max(5, { message: "Max 5 images" }).optional(),
   isFeatured: z.boolean(),
-  keyFeatures: z.string().optional(),
+  keyFeatures: z.string(),
   status: z.enum(["completed", "in-progress", "planned"]),
 });
