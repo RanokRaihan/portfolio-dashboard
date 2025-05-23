@@ -30,7 +30,7 @@ export default function DashboardLayout({
             <ModeToggle />
           </div>
         </header>
-        {children}
+        <main className="px-4">{children}</main>
       </SidebarInset>
     </SidebarProvider>
   );

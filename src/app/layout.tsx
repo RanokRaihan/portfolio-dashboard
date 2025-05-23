@@ -1,6 +1,9 @@
 import { ThemeProvider } from "@/components/theme/theme-provider";
+import Providers from "@/providers/Provider";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import NextTopLoader from "nextjs-toploader";
+import { Toaster } from "sonner";
 import "./globals.css";
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,7 +36,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <Providers>
+            <NextTopLoader showSpinner={false} color="#7f22fe" />
+            {children}
+            <Toaster position="top-center" richColors />
+          </Providers>
         </ThemeProvider>
       </body>
     </html>
