@@ -22,6 +22,7 @@ import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { createProjectValidation } from "@/shcema/createProjectValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -53,8 +54,8 @@ export default function CreateProjectForm() {
   });
 
   const onSubmit = async (data: z.infer<typeof createProjectValidation>) => {
+    setIsLoading(true);
     try {
-      console.log({ data });
       // Handle form submission
       const refinedData = {
         ...data,
@@ -72,7 +73,7 @@ export default function CreateProjectForm() {
           .filter((str: string) => str.length > 0),
         thumbnail: data.thumbnail[0],
       };
-
+      console.log({ refinedData });
       const { thumbnail, images, ...rest } = refinedData;
       const formData = new FormData();
       formData.append("thumbnail", thumbnail);
@@ -379,8 +380,14 @@ export default function CreateProjectForm() {
             />
           </div>
           {/* Submit button */}
-          <Button type="submit" disabled={isLoading}>
-            Submit
+          <Button type="submit" disabled={isLoading} className="w-full">
+            {isLoading ? (
+              <span className="flex items-center gap-2">
+                <Loader className="animate-spin" /> Creating project...
+              </span>
+            ) : (
+              "Create Project"
+            )}
           </Button>
         </form>
       </Form>
