@@ -1,7 +1,7 @@
 import { getAllSkillsAction } from "@/actions/skillAction";
 import { SkillTable } from "@/components/table/SkillTable";
 import { Button } from "@/components/ui/button";
-import { Filter } from "@/types";
+import { Filter, SearchParams } from "@/types";
 import { PlusIcon } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -11,19 +11,15 @@ export const metadata: Metadata = {
   description: "Manage your portfolio skills and technologies",
 };
 
-interface PageProps {
-  searchParams: {
-    page?: string;
-    limit?: string;
-    category?: string;
-  };
-}
-
-export default async function SkillsPage({ searchParams }: PageProps) {
+export default async function SkillsPage({
+  searchParams,
+}: {
+  searchParams: SearchParams;
+}) {
   let filters: Filter[] = [];
-
+  const currSearchParams = await searchParams;
   // Convert searchParams to array of objects with name-value pairs
-  const searchParamsArray = Object.entries(await searchParams).map(
+  const searchParamsArray = Object.entries(currSearchParams).map(
     ([name, value]) => ({
       name,
       value: String(value),

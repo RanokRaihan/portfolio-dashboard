@@ -4,7 +4,9 @@ export const getAllinsightAction = async () => {
   try {
     const accessToken = (await cookies()).get("accessToken")?.value;
     const url = `${process.env.NEXT_PUBLIC_API_URL}/dashboard/insight`;
-
+    if (!accessToken) {
+      return { message: "Access token is missing" };
+    }
     const res = await fetch(url, {
       method: "GET",
       headers: {
@@ -13,11 +15,11 @@ export const getAllinsightAction = async () => {
       },
     });
 
-    if (!res.ok) {
-      const error = await res.json();
-      console.error("Error fetching insight:", error);
-      throw new Error(error.message);
-    }
+    // if (!res.ok) {
+    //   const error = await res.json();
+    //   console.error("Error fetching insight:", error);
+    //   throw new Error(error.message);
+    // }
 
     const data = await res.json();
     if (data.error || data.success === false) {

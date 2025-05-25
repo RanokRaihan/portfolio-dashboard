@@ -1,5 +1,3 @@
-"use client";
-
 import LoginForm from "@/components/form/LoginForm";
 import {
   Card,

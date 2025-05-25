@@ -1,6 +1,6 @@
 import { getAllBlogAction } from "@/actions/blogAction";
 import BlogTable from "@/components/table/BlogTable";
-import { Filter } from "@/types";
+import { Filter, SearchParams } from "@/types";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -8,18 +8,14 @@ export const metadata: Metadata = {
   description: "Manage your blog posts",
 };
 
-interface PageProps {
-  searchParams: {
-    page?: string;
-    limit?: string;
-  };
-}
-
-export default async function BlogPage({ searchParams }: PageProps) {
+export default async function BlogPage({
+  searchParams,
+}: {
+  searchParams: SearchParams;
+}) {
   let filters: Filter[] = [];
-
-  // Convert searchParams to array of objects with name-value pairs
-  const searchParamsArray = Object.entries(await searchParams).map(
+  const currSearchParams = await searchParams;
+  const searchParamsArray = Object.entries(currSearchParams).map(
     ([name, value]) => ({
       name,
       value: String(value),

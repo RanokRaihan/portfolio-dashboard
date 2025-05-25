@@ -1,6 +1,6 @@
 import { getAllProjectsAction } from "@/actions/projectAction";
 import { ProjectTable } from "@/components/table/ProjectTable";
-import { Filter } from "@/types";
+import { Filter, SearchParams } from "@/types";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -8,18 +8,15 @@ export const metadata: Metadata = {
   description: "Manage your portfolio projects",
 };
 
-interface PageProps {
-  searchParams: {
-    page?: string;
-    limit?: string;
-  };
-}
-
-export default async function ProjectsPage({ searchParams }: PageProps) {
+export default async function ProjectsPage({
+  searchParams,
+}: {
+  searchParams: SearchParams;
+}) {
   let filters: Filter[] = [];
-
+  const currSearchParams = await searchParams;
   // Convert searchParams to array of objects with name-value pairs
-  const searchParamsArray = Object.entries(await searchParams).map(
+  const searchParamsArray = Object.entries(currSearchParams).map(
     ([name, value]) => ({
       name,
       value: String(value),
