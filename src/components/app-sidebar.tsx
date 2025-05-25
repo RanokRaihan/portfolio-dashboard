@@ -5,7 +5,6 @@ import {
   GalleryVerticalEnd,
   Lightbulb,
   Notebook,
-  User,
 } from "lucide-react";
 import * as React from "react";
 
@@ -82,22 +81,22 @@ const data = {
         },
       ],
     },
-    {
-      title: "users",
-      url: "#",
-      icon: User,
-      isActive: false,
-      items: [
-        {
-          title: "Create User",
-          url: "/users/create",
-        },
-        {
-          title: "Manage Users",
-          url: "/users",
-        },
-      ],
-    },
+    // {
+    //   title: "users",
+    //   url: "#",
+    //   icon: User,
+    //   isActive: false,
+    //   items: [
+    //     {
+    //       title: "Create User",
+    //       url: "/users/create",
+    //     },
+    //     {
+    //       title: "Manage Users",
+    //       url: "/users",
+    //     },
+    //   ],
+    // },
   ],
 };
 
@@ -111,7 +110,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

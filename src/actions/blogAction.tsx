@@ -3,15 +3,16 @@
 import { Filter } from "@/types";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
+import { z } from "zod";
 
-export const createProjectAction = async (formData: FormData) => {
+export async function createBlogAction(formData: FormData) {
   try {
     const token = (await cookies()).get("accessToken")?.value;
     if (!token) {
       throw new Error("No access token found");
     }
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/project`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blog`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -20,24 +21,39 @@ export const createProjectAction = async (formData: FormData) => {
     });
     if (!res.ok) {
       const error = await res.json();
-      console.error("Error creating project:", error);
+      console.error("Error creating blog:", error);
       throw new Error(error.message);
     }
     const data = await res.json();
     if (data.error || data.success === false) {
-      console.error("Error creating project:", data.error);
+      console.error("Error creating blog:", data.error);
       throw new Error(data?.error || "Unknown error");
     }
     return data;
   } catch (error) {
-    console.error("Error creating project:", error);
-    throw error;
-  }
-};
+    console.error("Error creating blog post:", error);
 
-export const getAllProjectsAction = async (filters?: Filter[]) => {
+    if (error instanceof z.ZodError) {
+      return {
+        success: false,
+        message: "Invalid form data",
+        errors: error.errors,
+      };
+    }
+
+    return {
+      success: false,
+      message:
+        error instanceof Error ? error.message : "Failed to create blog post",
+    };
+  }
+}
+
+// get all blogs
+
+export const getAllBlogAction = async (filters?: Filter[]) => {
   try {
-    let url = `${process.env.NEXT_PUBLIC_API_URL}/project`;
+    let url = `${process.env.NEXT_PUBLIC_API_URL}/blog`;
     if (filters && filters.length > 0) {
       const searchParams = new URLSearchParams();
       filters.forEach((filter) => {
@@ -50,54 +66,50 @@ export const getAllProjectsAction = async (filters?: Filter[]) => {
 
     if (!res.ok) {
       const error = await res.json();
-      console.error("Error fetching projects:", error);
+      console.error("Error fetching blog:", error);
       throw new Error(error.message);
     }
 
     const data = await res.json();
     if (data.error || data.success === false) {
-      console.error("Error fetching projects:", data.error);
+      console.error("Error fetching blog:", data.error);
       throw new Error(data?.error || "Unknown error");
     }
 
     return data;
   } catch (error) {
-    console.error("Error fetching projects:", error);
+    console.error("Error fetching blog:", error);
     throw error;
   }
 };
 
-export const deleteProjectAction = async (id: string) => {
+export const deleteBlogAction = async (id: string) => {
   try {
     const token = (await cookies()).get("accessToken")?.value;
     if (!token) {
       console.error("No access token found in cookies");
       throw new Error("No access token found");
     }
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/project/${id}`,
-      {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        credentials: "include",
-      }
-    );
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blog/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     if (!res.ok) {
       const error = await res.json();
-      console.error("Error deleting project:", error);
+      console.error("Error deleting blog:", error);
       throw new Error(error.message);
     }
     const data = await res.json();
     if (data.error || data.success === false) {
-      console.error("Error deleting project:", data.error);
+      console.error("Error deleting blog:", data.error);
       throw new Error(data?.error || "Unknown error");
     }
-    revalidatePath("/projects");
+    revalidatePath("/blogs");
     return data;
   } catch (error) {
-    console.error("Error deleting project:", error);
+    console.error("Error deleting blog post:", error);
     throw error;
   }
 };

@@ -1,4 +1,5 @@
 import { getCurrentUser } from "@/actions/loginAction";
+import { IUser } from "@/types";
 import {
   createContext,
   Dispatch,
@@ -9,19 +10,12 @@ import {
   useState,
 } from "react";
 
-export interface IUser {
-  userId: string;
-  email: string;
-  role: "MEMBERS" | "ADMIN" | string;
-  iat?: number;
-  exp?: number;
-}
-
 interface AuthContextType {
   user: IUser | null;
   isLoading: boolean;
   setUser: (user: IUser | null) => void;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
+  handleUser?: () => Promise<void>;
 }
 
 // Create the context with an initial empty value
@@ -43,7 +37,9 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   }, [isLoading]);
 
   return (
-    <UserContext.Provider value={{ user, setUser, isLoading, setIsLoading }}>
+    <UserContext.Provider
+      value={{ user, setUser, isLoading, setIsLoading, handleUser }}
+    >
       {children}
     </UserContext.Provider>
   );

@@ -11,6 +11,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useUser } from "@/context/userContext";
 import { loginSchema } from "@/shcema/loginValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
@@ -22,6 +23,7 @@ import { z } from "zod";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const { handleUser = () => Promise.resolve() } = useUser() || {};
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
@@ -46,6 +48,7 @@ const LoginForm = () => {
         }
       );
       if (res?.success && res?.data?.accessToken) {
+        if (handleUser) await handleUser();
         toast.success("Login successful!");
         router.push("/");
       } else {
